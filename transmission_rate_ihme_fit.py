@@ -79,28 +79,5 @@ for n in range(0, days, period_length):
     solution = odeint(deriv, y0, tspan, args=(population, beta_opt, gamma_opt))
     S0 = solution[:,0][-1]
     
-#print(beta_values)
+print(beta_values)
 
-initial_conditions = [0.99, 0.01, 0.0]  # Initial susceptible, infected, and recovered fractions
-
-t = np.arange(days)
-gamma = 0.043
-
-solutions = []
-for beta in beta_values:
-    sol = odeint(deriv, initial_conditions, t, args=(beta, gamma))
-    solutions.append(sol)
-
-# Plot the results
-plt.figure(figsize=(10, 6))
-for i, sol in enumerate(solutions):
-    plt.plot(t, sol[:, 0], label=f'Susceptible (β={beta_values[i]}, γ={gamma})')
-    plt.plot(t, sol[:, 1], label=f'Infected (β={beta_values[i]}, γ={gamma})')
-    plt.plot(t, sol[:, 2], label=f'Recovered (β={beta_values[i]}, γ={gamma})')
-
-plt.title('SIR Model with Changing Infection Rate (β)')
-plt.xlabel('Time')
-plt.ylabel('Fraction of Population')
-plt.legend()
-plt.grid(True)
-plt.show()
