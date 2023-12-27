@@ -10,7 +10,7 @@ import os
 
 gamma = 0.043
 days = 784
-period_length = 784
+period_length = 7
 period_number = np.uint64(days/period_length)
 time = np.arange(0, days, 1)
 init_gamma = 0.043
@@ -78,6 +78,8 @@ for n in range(0, days, period_length):
     
     solution = odeint(deriv, y0, tspan, args=(population, beta_opt, gamma_opt))
     S0 = solution[:,0][-1]
-    
-print(beta_values)
+
+time = np.arange(period_number)
+plt.plot(time, beta_values, 'b-', label='beta')
+plt.show()
 
