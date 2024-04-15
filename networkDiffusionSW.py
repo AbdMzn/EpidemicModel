@@ -3,7 +3,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import math
 import random
-import collections
 from tqdm import tqdm
 
 def network_init(pop, inf_percentage, m, immune_percentage, aware_percentage):
@@ -44,13 +43,13 @@ def network_init(pop, inf_percentage, m, immune_percentage, aware_percentage):
 def iterate(G, beta, gamma, inf_count, sus_count, rem_count):
     inf_velocity, rem_velocity = 0, 0
 
-    aware_statuses = nx.get_node_attributes(G, "aware")
+    """aware_statuses = nx.get_node_attributes(G, "aware")
     for node, aware in aware_statuses.items():
         if aware == 1:
             node_neighbors = [n for n in G.neighbors(node)]
             for k in node_neighbors:
                 if G.nodes[k]["aware"] == 0 and (random.random() <= beta):
-                    G.nodes[k]["aware"] = 1
+                    G.nodes[k]["aware"] = 1 """
 
     statuses = nx.get_node_attributes(G, "status")
     for node, status in statuses.items():
@@ -108,26 +107,27 @@ def epidemic_model(pop, beta, gamma, density, inf_percentage, immune_percentage,
 
     mask = np.ones((30))/30
     inf_vel_array_avg = np.convolve(inf_vel_array, mask, 'same')
-    rem_vel_array_avg = np.convolve(rem_vel_array, mask, 'same') 
-    diff_vel_array_avg = np.convolve(diff_vel_array, mask, 'same') 
+    rem_vel_array_avg = np.convolve(rem_vel_array, mask, 'same')
+    diff_vel_array_avg = np.convolve(diff_vel_array, mask, 'same')
 
-    fig, ax = plt.subplots(2, 1)
+    fig, ax = plt.subplots(1, 1)
 
-    ax[0].plot(x, inf_array, label='Infected', linestyle='-', color='orange', linewidth = 0.5)
-    ax[0].plot(x, sus_array, label='Susceptible', linestyle='-', color='blue', linewidth = 0.5)
-    ax[0].plot(x, rem_array, label='Removed', linestyle='-', color='green', linewidth = 0.5)
-    ax[0].set_ylabel('Population')
-    ax[0].set_title(f"Percentage immune: {immune_percentage*100}%")
-    ax[0].axhline(y=immune_count, color='red', linestyle='--', label='Immune population', linewidth = 0.5)
-    ax[0].legend()
+    ax.plot(x, inf_array, label='Infected', linestyle='-', color='orange', linewidth = 1)
+    ax.plot(x, sus_array, label='Susceptible', linestyle='-', color='blue', linewidth = 1)
+    ax.plot(x, rem_array, label='Removed', linestyle='-', color='green', linewidth = 1)
+    ax.set_ylabel('Population')
+    ax.set_xlabel('Days')
+    ax.set_title(f"Percentage immune: {immune_percentage*100}%")
+    ax.axhline(y=immune_count, color='red', linestyle='--', label='Immune population', linewidth = 1)
+    ax.legend()
 
-    ax[1].plot(x, inf_vel_array_avg, label='Infected velocity', linestyle='-', color='orange', linewidth = 0.5)
+    """ ax[1].plot(x, inf_vel_array_avg, label='Infected velocity', linestyle='-', color='orange', linewidth = 0.5)
     ax[1].plot(x, rem_vel_array_avg, label='Removed velocity', linestyle='-', color='green', linewidth = 0.5)
     #ax[1].plot(x, diff_vel_array_avg, label='Velocity difference', linestyle='-', color='red', linewidth = 0.5)
     ax[1].set_xlabel('Iterations')
     ax[1].set_ylabel('Velocity')
     ax[1].set_title('Velocity (Moving average)')
-    ax[1].legend()
+    ax[1].legend() """
 
     
 #Population, Beta, Gamma, Density, Infected percentage, Immune percentage, Iterations

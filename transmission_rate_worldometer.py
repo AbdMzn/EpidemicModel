@@ -1,12 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-from scipy.optimize import curve_fit, minimize
+from scipy.optimize import curve_fit
 from scipy.integrate import odeint
 import math
-import lmfit
-from lmfit.lineshapes import gaussian, lorentzian
 
 days = 784
 period_length = 7
@@ -27,7 +24,6 @@ beta_values_2 = np.zeros(period_number, dtype = np.float64)
 for n in range(0, days, period_length):
     R_data = total_removed[n:period_length+n]
     I = active_cases[n]
-    
     def fitfunc(t, gamma):
         def Removed(R, t):
             return gamma * I
@@ -75,7 +71,7 @@ for n in range(0, days, period_length):
     beta_values_2[m] = beta
 
 time = np.arange(period_number)
-plt.plot(time, beta_values_1, 'b-', label='beta (1)')
-plt.plot(time, beta_values_2, 'r-', label='beta (2)')
-plt.plot(time, gamma_values, 'b--', label='gamma')
+plt.plot(time[10:], beta_values_1[10:], 'b-', label='beta (1)')
+plt.plot(time[10:], beta_values_2[10:], 'r-', label='beta (2)')
+plt.plot(time[10:], gamma_values[10:], 'b--', label='gamma')
 plt.show()

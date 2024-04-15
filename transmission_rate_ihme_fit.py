@@ -64,7 +64,7 @@ S0 = population - total_cases - i_0
 
 for n in range(0, days, period_length):
     I_data = ihme_cases_mean[n:n+period_length]
-    y0 = S0, I_data[0], 0
+    y0 = S0, I_data[0], population - I_data[0] - S0
     
     initial_guess = [beta_guess, gamma_guess]
     result = minimize(objective, initial_guess, args=(y0, population, tspan, I_data), method='L-BFGS-B')
